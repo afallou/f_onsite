@@ -1,0 +1,11 @@
+{
+  "name": "express_todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "author": "Adrien Fallou",
+  "license": "ISC"
+}

@@ -1,8 +1,8 @@
-/*@ngInject*/
+/* @ngInject */
 
 import angular from 'angular';
 
-import {grid} from './app/grid/grid';
+import {projects} from './app/grid/projects';
 import 'angular-ui-router';
 import routesConfig from './routes';
 
@@ -12,4 +12,4 @@ export const app = 'app';
 angular
   .module(app, ['ui.router'])
   .config(routesConfig)
-  .component('app', grid);
+  .component('app', projects);

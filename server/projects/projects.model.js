@@ -1,10 +1,15 @@
 'use strict';
 var fs = require('fs');
 var path = require('path');
+var AWS = require('aws-sdk');
+var zlib = require('zlib');
+
+var config = require('../config');
 
 module.exports = class ProjectsModel{
 
-  constructor(){}
+  constructor(){
+  }
 
   /**
    * Upload file to local filesystem
@@ -25,6 +30,14 @@ module.exports = class ProjectsModel{
     });
   }
 
-  processUploadFile(filepath){
+  processUploadFile(filepath, filename){
+    this.uploadToS3(filepath, filename);
+  }
+
+  uploadToS3(filepath, filename){
+    var outStream = fs.createReadStream(filepath);
+    var s3Obj = new AWS.S3({params: {Bucket: config.s3Bucket, Key: filename}});
+    s3Obj.upload({Body: outStream})
+      .send((err, data) => { console.log(err, data)});
   }
 };

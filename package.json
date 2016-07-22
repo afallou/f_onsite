@@ -17,19 +17,6 @@
 
   },
   "scripts": {
-
-  },
-  "eslintConfig": {
-    "globals": {
-      "expect": true
-    },
-    "root": true,
-    "env": {
-      "browser": true,
-      "jasmine": true
-    },
-    "extends": [
-      "xo-space/esnext"
-    ]
+    "postinstall": "./node_modules/bower/bin/bower install"
   }
 }

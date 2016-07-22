@@ -4,19 +4,19 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "gulp test"
+    "postinstall": "cd client && ../node_modules/bower/bin/bower install & cd .."
   },
   "author": "Adrien Fallou",
   "license": "ISC",
   "dependencies": {
     "angular": "^1.4.0",
     "angular-ui-router": "^0.3.1",
-    "express": "^4.14.0"
+    "aws-sdk": "^2.4.9",
+    "bower": "^1.7.9",
+    "connect-busboy": "0.0.2",
+    "express": "^4.14.0",
+    "gm": "^1.22.0",
+    "mongodb": "^2.2.4"
   },
-  "devDependencies": {
-
-  },
-  "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower install"
-  }
+  "devDependencies": {}
 }

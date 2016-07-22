@@ -17,15 +17,17 @@ module.exports = class ProjectsController{
     var fstream;
     var that = this;
 
+    var imagesPromise;
     var projectProperties = {
       fileLocations: {}
     };
 
     // Upload file to file system before doing more
     req.busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-      that.model.uploadFile(file, filename)
+      // TODO: remove extension from filename
+      imagesPromise = that.model.uploadFile(file, filename)
         .then(filepath => {
-          that.model.processUploadFile(filepath, filename)
+          return that.model.processUploadFile(filepath, filename);
         })
         .then(fileLocations => {
           projectProperties.fileLocations = {
@@ -40,9 +42,14 @@ module.exports = class ProjectsController{
       projectProperties[key] = value;
     });
 
-    req.pipe(req.busboy);
+    req.busboy.on('finish', () => {
+      imagesPromise.then(() => {
+        this.model.createProject(projectProperties);
+      });
 
-    this.model.createProject(projectProperties);
+    });
+
+    req.pipe(req.busboy);
     res.send('Got request');
   }
 };

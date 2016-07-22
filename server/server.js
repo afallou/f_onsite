@@ -6,6 +6,17 @@ var ProjectsController = require('./projects/projects.controller');
 
 var projects = new ProjectsController();
 
+// Connect to DB
+var MongoClient = require('mongodb').MongoClient;
+MongoClient.connect(config.mongoURI, (err, dbConn) => {
+  if (err){
+    console.error(`Error connecting to the database: ${err}`);
+  } else {
+    global.db = dbConn;
+    console.log('Database connected');
+  }
+});
+
 var app = express();
 app.use(busboy());
 app.use('/', express.static('./client'));

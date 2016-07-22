@@ -9,11 +9,20 @@ var config = require('../config');
 
 module.exports = class ProjectsModel{
 
-  constructor(){
-  }
+  constructor(){}
 
   createProject(properties){
-
+    return new Promise((resolve, reject) => {
+      global.db.collection('projects').insertOne(properties,
+        (err, result) => {
+          if (err) {
+            console.error(err);
+            reject();
+          } else {
+            resolve(result);
+          }
+        });
+    });
   }
 
   /**
@@ -85,6 +94,7 @@ module.exports = class ProjectsModel{
     var outStream = fs.createReadStream(filepath);
     var s3Obj = new AWS.S3({params: {Bucket: config.s3Bucket, Key: filename}});
 
+    // TODO: create unique string for storage key on S3 to avoid collisions
     return new Promise((resolve, reject) => {
       s3Obj.upload({Body: outStream})
         .send((err, data) => {
@@ -93,7 +103,7 @@ module.exports = class ProjectsModel{
             reject();
           } else {
             console.log(`Successfully upload file ${filename} to S3`);
-            resolve(data.location);
+            resolve(data.Location);
           }
         });
     });

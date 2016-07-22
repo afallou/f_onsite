@@ -3,24 +3,23 @@
     .module('app')
     .controller('ProjectsController', ProjectsController);
 
-  ProjectsController.$inject = ['Upload', 'ApiURL'];
+  ProjectsController.$inject = ['ProjectsModel'];
 
-  function ProjectsController(Upload, ApiUrl){
+  function ProjectsController(ProjectsModel){
     var vm = this;
     vm.uploadProject = uploadProject;
 
     activate();
 
     function activate(){
-      vm.inner = 'bloh';
+      ProjectsModel.getProjects()
+        .then(function(projects){
+          vm.projects = projects;
+        });
     }
 
     function uploadProject(){
-      console.log('ok');
-      Upload.upload({
-        url: ApiUrl + '/projects',
-        data: {file: vm.uploadForm.files, title: vm.uploadForm.title}
-      });
+      ProjectsModel.uploadProject(vm.uploadForm.files, vm.uploadForm.title)
     }
   }
 }());

@@ -8,6 +8,13 @@ module.exports = class ProjectsController{
     this.model = new ProjectsModel();
   }
 
+  show(req, res){
+    this.model.getProjects()
+      .then(projects => {
+        res.send(projects);
+      })
+  }
+
   /**
    * Create project, including the correct files and title
    * @param req
@@ -19,7 +26,7 @@ module.exports = class ProjectsController{
 
     var imagesPromise;
     var projectProperties = {
-      fileLocations: {}
+      files: []
     };
 
     // Upload file to file system before doing more
@@ -30,11 +37,12 @@ module.exports = class ProjectsController{
           return that.model.processUploadFile(filepath, filename);
         })
         .then(fileLocations => {
-          projectProperties.fileLocations = {
+          projectProperties.files.push({
+            filename: filename,
             original: fileLocations[0],
             thumb: fileLocations[1],
             large: fileLocations[2]
-          }
+          });
         });
     });
 

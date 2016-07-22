@@ -22,6 +22,7 @@ app.use(busboy());
 app.use('/', express.static('./client'));
 
 app.post('/projects', (req, res) => projects.create(req, res));
+app.get('/projects', (req, res) => projects.show(req, res));
 
 app.listen(config.port, () => {
   console.log(`Server listening on port ${config.port}`);

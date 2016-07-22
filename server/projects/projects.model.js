@@ -11,6 +11,20 @@ module.exports = class ProjectsModel{
 
   constructor(){}
 
+  getProjects(){
+    return new Promise((resolve, reject) => {
+      global.db.collection('projects').find({}, {title: 1})
+        .toArray((err, result) => {
+          if (err) {
+            console.error(err);
+            reject();
+          } else {
+            resolve(result);
+          }
+        });
+    });
+  }
+
   createProject(properties){
     return new Promise((resolve, reject) => {
       global.db.collection('projects').insertOne(properties,
@@ -30,6 +44,7 @@ module.exports = class ProjectsModel{
    * @param {FileStream} file
    * @param {String} filename
    */
+  //TODO delete files in filesystem
   uploadFile(file, filename){
     return new Promise((resolve, reject) => {
       console.log(`Uploading file ${filename}`);
@@ -37,10 +52,15 @@ module.exports = class ProjectsModel{
       var tempPath = path.join(__dirname, '..', `tmp/${filename}`);
       var fstream = fs.createWriteStream(tempPath);
       file.pipe(fstream);
+
       fstream.on('close', () => {
         console.log(`Finished uploading ${filename}`);
         resolve(tempPath);
       });
+
+      fstream.on('error', err => {
+        console.error(`Error uploading file: ${err.stack}`);
+      })
     });
   }
 
@@ -58,11 +78,18 @@ module.exports = class ProjectsModel{
     var largePath = path.join(__dirname, '..', `tmp/${filename}_large.png`);
     // 'resize' will fit the image into the given dimensions
 
-    this.squareResizeAndWrite(filepath, thumbPath, config.thumbPxSize);
-    this.squareResizeAndWrite(filepath, largePath, config.largePxSize);
-
-    var promThumb = this.uploadToS3(thumbPath, `${filename}_thumb`);
-    var promLarge = this.uploadToS3(largePath, `${filename}_large`);
+    // TODO: could we avoid writing the file and stream it directly to S3 instead?
+    var promThumb = this.squareResizeAndWrite(filepath, thumbPath, config.thumbPxSize)
+      .then(() => {
+        return this.uploadToS3(thumbPath, `${filename}_thumb`);
+      })
+      .catch(err => {
+        console.error(err.stack);
+      });
+    var promLarge = this.squareResizeAndWrite(filepath, largePath, config.largePxSize)
+      .then(() => {
+        return this.uploadToS3(largePath, `${filename}_large`);
+    });
 
     return Promise.all([promOrig, promThumb, promLarge]);
   }
@@ -75,13 +102,17 @@ module.exports = class ProjectsModel{
    */
   squareResizeAndWrite(inPath, outPath, size){
     // Resize fits the image into the given dimension, while keeping aspect ratio
-    gm(inPath)
-      .resize(size, size)
-      .write(outPath, err => {
-        if (err){
-          console.error(`Error resizing image to thumb size: ${err}`);
-        }
-      });
+    return new Promise((resolve, reject) => {
+      gm(inPath)
+        .resize(size, size)
+        .write(outPath, err => {
+          if (err){
+            console.error(`Error resizing image to thumb size: ${err}`);
+          } else {
+            resolve();
+          }
+        });
+    });
   }
 
   /**

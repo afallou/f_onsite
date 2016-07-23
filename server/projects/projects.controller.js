@@ -15,6 +15,13 @@ module.exports = class ProjectsController{
       })
   }
 
+  showOne(req, res){
+    this.model.getProject(req.params.projectId)
+      .then(project => {
+        res.send(project);
+      });
+  }
+
   /**
    * Create project, including the correct files and title
    * @param req

@@ -1,17 +1,18 @@
 angular.module('app')
   .config(function($stateProvider, $urlRouterProvider){
-    $urlRouterProvider.otherwise('/dashboard');
+    $urlRouterProvider.otherwise('/projects');
 
     $stateProvider
       .state('app', {
-        url: '/dashboard',
+        url: '/projects',
         templateUrl: 'app/dashboard/dashboard.html',
         controller: 'DashboardController',
         controllerAs: 'vm'
       })
       .state('project', {
-        url: '/project/:id',
+        url: '/projects/:id',
         templateUrl: 'app/projects/project.html',
-        controller: 'ProjectsController'
+        controller: 'ProjectsController',
+        controllerAs: 'vm'
       });
   });

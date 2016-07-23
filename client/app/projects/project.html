@@ -1,0 +1,12 @@
+<a ui-sref="app">Back</a>
+
+<h2>Project view</h2>
+
+Project name: {{vm.project.title}}
+
+<div ng-repeat="file in vm.project.files">
+  <div>
+    <a download="{{file.filename}}" ng-href="{{file.original}}"><img ng-src="{{file.thumb}}"></a>
+    <span>{{file.filename}}</span>
+  </div>
+</div>

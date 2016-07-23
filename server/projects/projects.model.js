@@ -3,6 +3,7 @@ var fs = require('fs');
 var path = require('path');
 var AWS = require('aws-sdk');
 var zlib = require('zlib');
+var mongo = require('mongodb');
 var gm = require('gm').subClass({imageMagick: true});
 
 var config = require('../config');
@@ -14,6 +15,21 @@ module.exports = class ProjectsModel{
   getProjects(){
     return new Promise((resolve, reject) => {
       global.db.collection('projects').find({}, {title: 1})
+        .toArray((err, result) => {
+          if (err) {
+            console.error(err);
+            reject();
+          } else {
+            resolve(result);
+          }
+        });
+    });
+  }
+
+  getProject(projectId){
+    var id = new mongo.ObjectID(projectId);
+    return new Promise((resolve, reject) => {
+      global.db.collection('projects').find({'_id': id})
         .toArray((err, result) => {
           if (err) {
             console.error(err);

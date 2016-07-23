@@ -1,11 +1,11 @@
 (function(){
   angular
     .module('app')
-    .factory('ProjectsModel', ProjectsModel);
+    .factory('DashboardModel', DashboardModel);
 
-  ProjectsModel.$inject = ['Upload', 'ApiURL', '$http'];
+  DashboardModel.$inject = ['Upload', 'ApiURL', '$http'];
 
-  function ProjectsModel(Upload, ApiUrl, $http) {
+  function DashboardModel(Upload, ApiUrl, $http) {
 
     return {
       getProjects: function () {

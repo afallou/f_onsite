@@ -3,23 +3,13 @@
     .module('app')
     .controller('ProjectsController', ProjectsController);
 
-  ProjectsController.$inject = ['ProjectsModel'];
+  ProjectsController.$inject = [];
 
-  function ProjectsController(ProjectsModel){
+  function ProjectsController(){
     var vm = this;
-    vm.uploadProject = uploadProject;
-
     activate();
 
     function activate(){
-      ProjectsModel.getProjects()
-        .then(function(projects){
-          vm.projects = projects;
-        });
-    }
-
-    function uploadProject(){
-      ProjectsModel.uploadProject(vm.uploadForm.files, vm.uploadForm.title)
     }
   }
 }());

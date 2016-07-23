@@ -3,7 +3,7 @@
 
   <div>
     <div ng-repeat="project in vm.projects">
-      {{project.title}}
+      <a ui-sref="project({id: '{{project._id}}' })">{{project.title}}</a>
     </div>
   </div>
 

@@ -1,0 +1,12 @@
+body {
+  background-color: lightgrey;
+}
+
+.dropbox{
+  border: 2px dashed gray;
+  padding: 10px;
+}
+
+.dropbox.dragover{
+  border: 2px dashed blue;
+}

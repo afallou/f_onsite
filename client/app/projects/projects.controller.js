@@ -23,10 +23,14 @@
     }
 
     function uploadFiles(){
+      vm.uploadProgress = {};
+      vm.uploadForm.files.forEach(function(file){
+        vm.uploadProgress[file.name] = 0;
+      });
       ProjectsModel.uploadFiles(vm.uploadForm.files, vm.projectId)
         .then(function(){
           getProject();
-        })
+        });
     }
   }
 }());

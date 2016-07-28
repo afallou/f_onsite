@@ -3,11 +3,11 @@
     .module('app')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['DashboardModel'];
+  DashboardController.$inject = ['DashboardModel', '$state'];
 
-  function DashboardController(DashboardModel){
+  function DashboardController(DashboardModel, $state){
     var vm = this;
-    vm.uploadProject = uploadProject;
+    vm.createProject = createProject;
 
     activate();
 
@@ -18,8 +18,11 @@
         });
     }
 
-    function uploadProject(){
-      DashboardModel.uploadProject(vm.uploadForm.files, vm.uploadForm.title)
+    function createProject(){
+      DashboardModel.createProject(vm.uploadForm.title)
+        .then(function(projectId){
+          $state.go('project', {id: projectId});
+        });
     }
   }
 }());

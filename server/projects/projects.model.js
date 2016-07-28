@@ -49,7 +49,7 @@ module.exports = class ProjectsModel{
             console.error(err);
             reject();
           } else {
-            resolve(result);
+            resolve(properties._id.toString());
           }
         });
     });

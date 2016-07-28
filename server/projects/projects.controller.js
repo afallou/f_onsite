@@ -27,7 +27,7 @@ module.exports = class ProjectsController{
    * @param req
    * @param res
    */
-  create(req, res){
+  kreate(req, res){
     var fstream;
     var that = this;
 
@@ -66,5 +66,16 @@ module.exports = class ProjectsController{
 
     req.pipe(req.busboy);
     res.send('Got request');
+  }
+
+
+  create(req, res){
+    this.model.createProject({title: req.body.title})
+      .then(id => {
+        res.send({id});
+      })
+      .catch(err => {
+        console.error(`Error creating project: ${err}`);
+      })
   }
 };

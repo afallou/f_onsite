@@ -18,6 +18,13 @@
           })
       },
 
+      createProject: function(title){
+        return $http.post(ApiUrl + '/projects', {title: title})
+          .then(function(res){
+            return res.data.id;
+          })
+      },
+
       uploadProject: function (files, title) {
         Upload.upload({
           url: ApiUrl + '/projects',

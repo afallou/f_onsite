@@ -4,6 +4,21 @@
 
 Project name: {{vm.project.title}}
 
+<button type="button" ng-click="vm.showAddFile = !vm.showAddFile">Add file</button>
+
+<div id="file-upload" ng-show="vm.showAddFile">
+  <form ng-submit="vm.addProjectFile()">
+
+    <label for="project-file"></label>
+    <button type="button" class="button" ngf-select id="project-file"
+            ng-model="vm.uploadForm.files" ngf-multiple="true">
+      Select files
+    </button>
+
+    <button type="submit">Done</button>
+  </form>
+</div>
+
 <div ng-repeat="file in vm.project.files">
   <div>
     <a download="{{file.filename}}" ng-href="{{file.original}}"><img ng-src="{{file.thumb}}"></a>

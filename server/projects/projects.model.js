@@ -26,6 +26,7 @@ module.exports = class ProjectsModel{
     });
   }
 
+
   getProject(projectId){
     var id = new mongo.ObjectID(projectId);
     return new Promise((resolve, reject) => {
@@ -50,6 +51,23 @@ module.exports = class ProjectsModel{
             reject();
           } else {
             resolve(properties._id.toString());
+          }
+        });
+    });
+  }
+
+  updateProject(projectId, projectProperties){
+    var id = new mongo.ObjectID(projectId);
+    return new Promise((resolve, reject) => {
+      global.db.collection('projects').updateOne(
+        {_id: id},
+        {$push: {'files': {$each: projectProperties.files}}},
+        (err, result) => {
+          if (err) {
+            console.error(err);
+            reject();
+          } else {
+            resolve();
           }
         });
     });

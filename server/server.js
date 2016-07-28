@@ -26,6 +26,9 @@ app.use(bodyParser.json());
 app.post('/projects', (req, res) => {
   projects.create(req, res)
 });
+app.put('/projects/:projectId', (req, res) => {
+  projects.update(req, res)
+});
 app.get('/projects', (req, res) => {
   projects.show(req, res)
 });

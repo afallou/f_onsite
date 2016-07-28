@@ -3,9 +3,9 @@
     .module('app')
     .factory('DashboardModel', DashboardModel);
 
-  DashboardModel.$inject = ['Upload', 'ApiURL', '$http'];
+  DashboardModel.$inject = ['ApiURL', '$http'];
 
-  function DashboardModel(Upload, ApiUrl, $http) {
+  function DashboardModel(ApiUrl, $http) {
 
     return {
       getProjects: function () {
@@ -23,13 +23,6 @@
           .then(function(res){
             return res.data.id;
           })
-      },
-
-      uploadProject: function (files, title) {
-        Upload.upload({
-          url: ApiUrl + '/projects',
-          data: {file: files, title: title}
-        });
       }
     }
   }

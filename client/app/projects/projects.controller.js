@@ -7,6 +7,7 @@
 
   function ProjectsController($stateParams, ProjectsModel){
     var vm = this;
+    vm.uploadFiles = uploadFiles;
     activate();
 
     function activate(){
@@ -16,6 +17,10 @@
         .then(function(project){
           vm.project = project;
         });
+    }
+
+    function uploadFiles(){
+      ProjectsModel.uploadFiles(vm.uploadForm.files, vm.projectId)
     }
   }
 }());

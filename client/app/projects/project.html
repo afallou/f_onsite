@@ -7,7 +7,7 @@ Project name: {{vm.project.title}}
 <button type="button" ng-click="vm.showAddFile = !vm.showAddFile">Add file</button>
 
 <div id="file-upload" ng-show="vm.showAddFile">
-  <form ng-submit="vm.addProjectFile()">
+  <form ng-submit="vm.uploadFiles()">
 
     <label for="project-file"></label>
     <button type="button" class="button" ngf-select id="project-file"

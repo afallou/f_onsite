@@ -3,9 +3,9 @@
     .module('app')
     .factory('ProjectsModel', ProjectsModel);
 
-  ProjectsModel.$inject = ['ApiURL', '$http'];
+  ProjectsModel.$inject = ['Upload', 'ApiURL', '$http'];
 
-  function ProjectsModel(ApiUrl, $http) {
+  function ProjectsModel(Upload, ApiUrl, $http) {
 
     return {
       getProject: function (id) {
@@ -16,7 +16,15 @@
           .catch(function(err){
             console.error(err);
           })
-      }
+      },
+
+      uploadFiles: function (files, projectId) {
+      Upload.upload({
+        url: ApiUrl + '/projects/' + projectId,
+        data: {file: files},
+        method: 'PUT'
+      });
+    }
     }
   }
 }());

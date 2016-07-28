@@ -27,7 +27,7 @@ module.exports = class ProjectsController{
    * @param req
    * @param res
    */
-  kreate(req, res){
+  update(req, res){
     var fstream;
     var that = this;
 
@@ -59,7 +59,7 @@ module.exports = class ProjectsController{
 
     req.busboy.on('finish', () => {
       imagesPromise.then(() => {
-        this.model.createProject(projectProperties);
+        this.model.updateProject(req.params.projectId, projectProperties);
       });
 
     });

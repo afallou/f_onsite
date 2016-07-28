@@ -19,12 +19,12 @@
       },
 
       uploadFiles: function (files, projectId) {
-      Upload.upload({
-        url: ApiUrl + '/projects/' + projectId,
-        data: {file: files},
-        method: 'PUT'
-      });
-    }
+        return Upload.upload({
+          url: ApiUrl + '/projects/' + projectId,
+          data: {file: files},
+          method: 'PUT'
+        });
+      }
     }
   }
 }());

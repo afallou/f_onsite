@@ -12,7 +12,10 @@
 
     function activate(){
       vm.projectId = $stateParams.id;
+      getProject();
+    }
 
+    function getProject(){
       ProjectsModel.getProject(vm.projectId)
         .then(function(project){
           vm.project = project;
@@ -21,6 +24,9 @@
 
     function uploadFiles(){
       ProjectsModel.uploadFiles(vm.uploadForm.files, vm.projectId)
+        .then(function(){
+          getProject();
+        })
     }
   }
 }());

@@ -58,14 +58,18 @@ module.exports = class ProjectsController{
     });
 
     req.busboy.on('finish', () => {
-      imagesPromise.then(() => {
+      imagesPromise
+        .then(() => {
         this.model.updateProject(req.params.projectId, projectProperties);
-      });
+      })
+        .then(() => {
+          res.send(200);
+        })
+
 
     });
 
     req.pipe(req.busboy);
-    res.send('Got request');
   }
 
 
